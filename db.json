@@ -1,0 +1,263 @@
+{
+  "trades": [
+    {
+      "id": 1,
+      "title": "九成新机械键盘",
+      "category": "数码配件",
+      "price": 89,
+      "condition": "九成新",
+      "location": "东区宿舍",
+      "publisher": "软件工程 2023 级学生",
+      "publishTime": "2026-06-01 10:20",
+      "image": "",
+      "status": "open",
+      "description": "键盘使用正常，因更换设备转让。"
+    },
+    {
+      "id": 2,
+      "title": "高等数学教材",
+      "category": "教材资料",
+      "price": 18,
+      "condition": "八成新",
+      "location": "图书馆门口",
+      "publisher": "数学学院学生",
+      "publishTime": "2026-06-01 14:30",
+      "image": "",
+      "status": "open",
+      "description": "教材有少量笔记，不影响使用。"
+    },
+    {
+      "id": 3,
+      "title": "电动车充电器",
+      "category": "生活用品",
+      "price": 25,
+      "condition": "七成新",
+      "location": "西区车棚",
+      "publisher": "电气学院 2024 级学生",
+      "publishTime": "2026-06-02 09:15",
+      "image": "",
+      "status": "open",
+      "description": "原装充电器，功能完好。"
+    },
+    {
+      "id": 4,
+      "title": "小夜灯 USB 款",
+      "category": "生活用品",
+      "price": 10,
+      "condition": "全新",
+      "location": "研究生公寓",
+      "publisher": "物理学院学生",
+      "publishTime": "2026-06-02 16:00",
+      "image": "",
+      "status": "open",
+      "description": "买多了没用过，全新未拆封。"
+    },
+    {
+      "id": 5,
+      "title": "素描画板套装",
+      "category": "文体用品",
+      "price": 35,
+      "condition": "九成新",
+      "location": "艺术学院楼",
+      "publisher": "艺术学院 2023 级学生",
+      "publishTime": "2026-06-03 08:40",
+      "image": "",
+      "status": "open",
+      "description": "含画板、画架、素描纸一袋，只用了两次。"
+    },
+    {
+      "id": 6,
+      "title": "考研政治精讲精练",
+      "category": "教材资料",
+      "price": 20,
+      "condition": "七成新",
+      "location": "图书馆自习区",
+      "publisher": "法学院学生",
+      "publishTime": "2026-06-03 11:20",
+      "image": "",
+      "status": "open",
+      "description": "2026 版，有重点划线标记。"
+    }
+  ],
+  "lostFounds": [
+    {
+      "id": 1,
+      "title": "寻找黑色校园卡",
+      "type": "lost",
+      "itemName": "校园卡",
+      "location": "一食堂附近",
+      "eventTime": "2026-06-02 12:10",
+      "contact": "站内消息联系",
+      "status": "open",
+      "description": "校园卡卡套为黑色，内含学生证，姓名张同学。"
+    },
+    {
+      "id": 2,
+      "title": "拾到蓝色雨伞",
+      "type": "found",
+      "itemName": "雨伞",
+      "location": "教学楼 A 区",
+      "eventTime": "2026-06-02 18:40",
+      "contact": "站内消息联系",
+      "status": "open",
+      "description": "蓝色长柄雨伞，放在 A 区一楼值班室。"
+    },
+    {
+      "id": 3,
+      "title": "寻找灰色书包",
+      "type": "lost",
+      "itemName": "书包",
+      "location": "操场看台",
+      "eventTime": "2026-06-03 07:30",
+      "contact": "站内消息联系",
+      "status": "open",
+      "description": "灰色双肩包，侧面有水杯袋，内有英语课本。"
+    },
+    {
+      "id": 4,
+      "title": "拾到白色耳机仓",
+      "type": "found",
+      "itemName": "耳机仓",
+      "location": "二食堂二楼",
+      "eventTime": "2026-06-03 12:00",
+      "contact": "站内消息联系",
+      "status": "open",
+      "description": "白色 AirPods 耳机仓，已交至食堂失物招领处。"
+    },
+    {
+      "id": 5,
+      "title": "寻找银色 U 盘",
+      "type": "lost",
+      "itemName": "U 盘",
+      "location": "机房 306",
+      "eventTime": "2026-06-04 10:15",
+      "contact": "站内消息联系",
+      "status": "open",
+      "description": "32G 银色闪迪 U 盘，内有课程设计资料。"
+    }
+  ],
+  "groupBuys": [
+    {
+      "id": 1,
+      "title": "周五晚火锅拼单",
+      "type": "拼餐",
+      "targetCount": 6,
+      "currentCount": 3,
+      "deadline": "2026-06-05 17:00",
+      "location": "学校南门",
+      "publisher": "计算机学院学生",
+      "status": "open",
+      "description": "AA 制，人数够后统一预约。"
+    },
+    {
+      "id": 2,
+      "title": "四六级资料团购",
+      "type": "学习资料",
+      "targetCount": 10,
+      "currentCount": 7,
+      "deadline": "2026-06-06 22:00",
+      "location": "线上确认",
+      "publisher": "外国语学院学生",
+      "status": "open",
+      "description": "达到人数后统一下单，每份比单买便宜 5 元。"
+    },
+    {
+      "id": 3,
+      "title": "奶茶凑单满减",
+      "type": "拼餐",
+      "targetCount": 4,
+      "currentCount": 2,
+      "deadline": "2026-06-04 15:00",
+      "location": "一点点奶茶店",
+      "publisher": "经管学院学生",
+      "status": "open",
+      "description": "第二杯半价活动，凑满 4 杯最划算。"
+    },
+    {
+      "id": 4,
+      "title": "健身房年卡拼团",
+      "type": "生活服务",
+      "targetCount": 5,
+      "currentCount": 4,
+      "deadline": "2026-06-10 20:00",
+      "location": "学校北门健身房",
+      "publisher": "体育学院学生",
+      "status": "open",
+      "description": "年卡团购价 599 元，只剩 1 个名额。"
+    },
+    {
+      "id": 5,
+      "title": "期末复习资料拼印",
+      "type": "学习资料",
+      "targetCount": 15,
+      "currentCount": 9,
+      "deadline": "2026-06-08 18:00",
+      "location": "校内打印店",
+      "publisher": "信息学院学生",
+      "status": "open",
+      "description": "各科重点汇总，拼团打印更便宜，每人约 8 元。"
+    }
+  ],
+  "errands": [
+    {
+      "id": 1,
+      "title": "帮取快递到宿舍楼下",
+      "taskType": "取快递",
+      "reward": 3,
+      "from": "菜鸟驿站",
+      "to": "东区宿舍 3 号楼",
+      "deadline": "2026-06-03 18:00",
+      "publisher": "土木学院学生",
+      "status": "open",
+      "description": "快递不大，取件码私聊发给您。"
+    },
+    {
+      "id": 2,
+      "title": "带一份黄焖鸡米饭到机房",
+      "taskType": "带饭",
+      "reward": 3,
+      "from": "二食堂黄焖鸡窗口",
+      "to": "信息楼 301",
+      "deadline": "2026-06-03 12:30",
+      "publisher": "软件工程学生",
+      "status": "open",
+      "description": "微辣多汤，到了联系我下楼取。"
+    },
+    {
+      "id": 3,
+      "title": "图书馆还书代跑",
+      "taskType": "代办事",
+      "reward": 2,
+      "from": "东区宿舍",
+      "to": "图书馆一楼还书处",
+      "deadline": "2026-06-04 17:00",
+      "publisher": "文学院学生",
+      "status": "open",
+      "description": "两本书需要还，在宿舍门口交接即可。"
+    },
+    {
+      "id": 4,
+      "title": "帮忙打印课程论文",
+      "taskType": "代办事",
+      "reward": 2,
+      "from": "线上发送文件",
+      "to": "校内打印店 → 宿舍楼",
+      "deadline": "2026-06-04 18:00",
+      "publisher": "化工学院学生",
+      "status": "open",
+      "description": "约 15 页，双面打印，送到 7 号宿舍楼下。"
+    },
+    {
+      "id": 5,
+      "title": "顺路带杯咖啡到图书馆",
+      "taskType": "带饭",
+      "reward": 2,
+      "from": "瑞幸咖啡（南门）",
+      "to": "图书馆二楼",
+      "deadline": "2026-06-05 08:30",
+      "publisher": "医学院学生",
+      "status": "open",
+      "description": "冰美式少冰，先转账后下单。"
+    }
+  ]
+}

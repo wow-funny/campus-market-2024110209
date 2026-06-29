@@ -15,4 +15,12 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  server: {
+    proxy: {
+      '/trades': 'http://localhost:3000',
+      '/lostFounds': 'http://localhost:3000',
+      '/groupBuys': 'http://localhost:3000',
+      '/errands': 'http://localhost:3000',
+    },
+  },
 })

@@ -1,65 +1,74 @@
 <template>
   <section class="page">
-    <div class="page-head">
-      <h2>拼单搭子</h2>
-      <p>和同学们一起拼单，省钱又省心</p>
+    <div class="page-header">
+      <h1>拼单搭子</h1>
+      <p>和同学们一起拼单，省钱又省心。</p>
     </div>
 
-    <el-row :gutter="16">
-      <el-col v-for="item in list" :key="item.id" :xs="24" :sm="12" :md="8" class="item-col">
-        <el-card shadow="hover">
-          <div class="card-header">
-            <h3>{{ item.title }}</h3>
-            <el-tag :type="item.tag === '拼单' ? 'warning' : 'success'" size="small">{{ item.tag }}</el-tag>
-          </div>
-          <p class="desc">{{ item.desc }}</p>
-          <div class="progress">
-            <span>{{ item.current }}/{{ item.max }}人</span>
-            <el-progress :percentage="percentage(item.current, item.max)" :stroke-width="6" />
-          </div>
-          <p class="deadline">截止：{{ item.deadline }}</p>
-          <el-button type="primary" size="small" style="width:100%;margin-top:8px">{{ item.action }}</el-button>
-        </el-card>
-      </el-col>
-    </el-row>
+    <div v-if="groupBuys.length" class="list">
+      <ItemCard
+        v-for="item in groupBuys"
+        :key="item.id"
+        :title="item.title"
+        :description="item.description"
+        :tag="item.type"
+        :location="item.location"
+        :time="item.deadline"
+      >
+        <template #footer>
+          <span class="progress">{{ item.currentCount }} / {{ item.targetCount }} 人</span>
+        </template>
+      </ItemCard>
+    </div>
+
+    <EmptyState v-else text="暂无拼单搭子信息" />
   </section>
 </template>
 
 <script setup lang="ts">
-interface GroupItem {
-  id: number
-  title: string
-  tag: string
-  desc: string
-  current: number
-  max: number
-  deadline: string
-  action: string
-}
+import { onMounted, ref } from 'vue'
+import ItemCard from '../components/ItemCard.vue'
+import EmptyState from '../components/EmptyState.vue'
+import { getGroupBuys, type GroupBuyItem } from '../api/groupBuy'
 
-function percentage(current: number, max: number): number {
-  return Number(((current / max) * 100).toFixed(1))
-}
+const groupBuys = ref<GroupBuyItem[]>([])
 
-const list: GroupItem[] = [
-  { id: 1, title: '奶茶第二杯半价', tag: '拼单', desc: '一点点奶茶，第二杯半价！', current: 1, max: 2, deadline: '今天 18:00', action: '加入拼单' },
-  { id: 2, title: '羽毛球组队', tag: '搭子', desc: '周末羽毛球，缺2人', current: 2, max: 4, deadline: '周六 10:00', action: '加入队伍' },
-  { id: 3, title: '外卖凑单满减', tag: '拼单', desc: '美团外卖满30减10，差一人', current: 1, max: 2, deadline: '今天 12:00', action: '加入拼单' },
-  { id: 4, title: '图书馆占座组队', tag: '搭子', desc: '期末复习，互相监督', current: 1, max: 3, deadline: '长期', action: '加入队伍' },
-  { id: 5, title: '水果拼单', tag: '拼单', desc: '整箱车厘子拼单', current: 2, max: 5, deadline: '明天 20:00', action: '加入拼单' },
-]
+onMounted(async () => {
+  const res = await getGroupBuys()
+  groupBuys.value = res.data
+})
 </script>
 
 <style scoped>
-.page { max-width: 960px; margin: 0 auto; }
-.page-head { margin-bottom: 24px; }
-.page-head h2 { font-size: 22px; font-weight: 700; color: #303133; }
-.page-head p { color: #909399; font-size: 14px; margin-top: 4px; }
-.item-col { margin-bottom: 16px; }
-.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-.card-header h3 { font-size: 16px; font-weight: 600; margin: 0; }
-.desc { color: #606266; font-size: 14px; margin: 8px 0; }
-.progress { margin: 12px 0; }
-.progress span { font-size: 12px; color: #909399; }
-.deadline { color: #909399; font-size: 12px; margin: 0; }
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.page-header {
+  padding: 24px;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.page-header h1 {
+  margin: 0 0 8px;
+}
+
+.page-header p {
+  margin: 0;
+  color: #6b7280;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.progress {
+  color: #6b7280;
+  font-size: 13px;
+}
 </style>
