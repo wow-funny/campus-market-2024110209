@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { Bell } from '@element-plus/icons-vue'
+import { Bell, Plus } from '@element-plus/icons-vue'
 import AppNav from './AppNav.vue'
 
 const router = useRouter()
@@ -21,6 +21,9 @@ const router = useRouter()
         <el-badge :value="3" :hidden="false" class="notif-badge">
           <el-icon :size="20" color="#606266"><Bell /></el-icon>
         </el-badge>
+        <el-button class="publish-btn" type="primary" size="small" @click="router.push('/publish')">
+          <el-icon><Plus /></el-icon>发布信息
+        </el-button>
         <el-dropdown trigger="click">
           <div class="user-area">
             <el-avatar :size="32" class="user-avatar">U</el-avatar>
@@ -29,7 +32,6 @@ const router = useRouter()
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item @click="router.push('/user')">个人中心</el-dropdown-item>
-              <el-dropdown-item @click="router.push('/publish')">发布商品</el-dropdown-item>
               <el-dropdown-item divided>退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </template>
@@ -144,5 +146,10 @@ const router = useRouter()
   font-size: 14px;
   color: #303133;
   font-weight: 500;
+}
+
+.publish-btn {
+  font-weight: 600;
+  border-radius: 8px;
 }
 </style>

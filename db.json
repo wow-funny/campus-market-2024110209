@@ -1,7 +1,7 @@
 {
   "trades": [
     {
-      "id": 1,
+      "id": "1",
       "title": "九成新机械键盘",
       "category": "数码配件",
       "price": 89,
@@ -14,7 +14,7 @@
       "description": "键盘使用正常，因更换设备转让。"
     },
     {
-      "id": 2,
+      "id": "2",
       "title": "高等数学教材",
       "category": "教材资料",
       "price": 18,
@@ -27,7 +27,7 @@
       "description": "教材有少量笔记，不影响使用。"
     },
     {
-      "id": 3,
+      "id": "3",
       "title": "电动车充电器",
       "category": "生活用品",
       "price": 25,
@@ -40,7 +40,7 @@
       "description": "原装充电器，功能完好。"
     },
     {
-      "id": 4,
+      "id": "4",
       "title": "小夜灯 USB 款",
       "category": "生活用品",
       "price": 10,
@@ -53,7 +53,7 @@
       "description": "买多了没用过，全新未拆封。"
     },
     {
-      "id": 5,
+      "id": "5",
       "title": "素描画板套装",
       "category": "文体用品",
       "price": 35,
@@ -66,7 +66,7 @@
       "description": "含画板、画架、素描纸一袋，只用了两次。"
     },
     {
-      "id": 6,
+      "id": "6",
       "title": "考研政治精讲精练",
       "category": "教材资料",
       "price": 20,
@@ -77,11 +77,24 @@
       "image": "",
       "status": "open",
       "description": "2026 版，有重点划线标记。"
+    },
+    {
+      "title": "华为笔记本电脑",
+      "category": "数码产品",
+      "price": 3500,
+      "condition": "九成新",
+      "location": "c教102",
+      "publisher": "当前用户",
+      "publishTime": "2026-06-30 03:10",
+      "image": "",
+      "status": "open",
+      "description": "刚买用了十几天就没用了",
+      "id": "kKSGwWc-awg"
     }
   ],
   "lostFounds": [
     {
-      "id": 1,
+      "id": "1",
       "title": "寻找黑色校园卡",
       "type": "lost",
       "itemName": "校园卡",
@@ -92,7 +105,7 @@
       "description": "校园卡卡套为黑色，内含学生证，姓名张同学。"
     },
     {
-      "id": 2,
+      "id": "2",
       "title": "拾到蓝色雨伞",
       "type": "found",
       "itemName": "雨伞",
@@ -103,7 +116,7 @@
       "description": "蓝色长柄雨伞，放在 A 区一楼值班室。"
     },
     {
-      "id": 3,
+      "id": "3",
       "title": "寻找灰色书包",
       "type": "lost",
       "itemName": "书包",
@@ -114,7 +127,7 @@
       "description": "灰色双肩包，侧面有水杯袋，内有英语课本。"
     },
     {
-      "id": 4,
+      "id": "4",
       "title": "拾到白色耳机仓",
       "type": "found",
       "itemName": "耳机仓",
@@ -125,7 +138,7 @@
       "description": "白色 AirPods 耳机仓，已交至食堂失物招领处。"
     },
     {
-      "id": 5,
+      "id": "5",
       "title": "寻找银色 U 盘",
       "type": "lost",
       "itemName": "U 盘",
@@ -134,11 +147,22 @@
       "contact": "站内消息联系",
       "status": "open",
       "description": "32G 银色闪迪 U 盘，内有课程设计资料。"
+    },
+    {
+      "title": "寻找书包",
+      "type": "lost",
+      "itemName": "kimi书包",
+      "location": "B区食堂",
+      "eventTime": "2026-06-07T11:14",
+      "contact": "站内消息联系",
+      "status": "open",
+      "description": "颜色为红色",
+      "id": "NK1KXxDfLzE"
     }
   ],
   "groupBuys": [
     {
-      "id": 1,
+      "id": "1",
       "title": "周五晚火锅拼单",
       "type": "拼餐",
       "targetCount": 6,
@@ -150,7 +174,7 @@
       "description": "AA 制，人数够后统一预约。"
     },
     {
-      "id": 2,
+      "id": "2",
       "title": "四六级资料团购",
       "type": "学习资料",
       "targetCount": 10,
@@ -162,7 +186,7 @@
       "description": "达到人数后统一下单，每份比单买便宜 5 元。"
     },
     {
-      "id": 3,
+      "id": "3",
       "title": "奶茶凑单满减",
       "type": "拼餐",
       "targetCount": 4,
@@ -174,7 +198,7 @@
       "description": "第二杯半价活动，凑满 4 杯最划算。"
     },
     {
-      "id": 4,
+      "id": "4",
       "title": "健身房年卡拼团",
       "type": "生活服务",
       "targetCount": 5,
@@ -186,7 +210,7 @@
       "description": "年卡团购价 599 元，只剩 1 个名额。"
     },
     {
-      "id": 5,
+      "id": "5",
       "title": "期末复习资料拼印",
       "type": "学习资料",
       "targetCount": 15,
@@ -196,11 +220,23 @@
       "publisher": "信息学院学生",
       "status": "open",
       "description": "各科重点汇总，拼团打印更便宜，每人约 8 元。"
+    },
+    {
+      "title": "机场网约车拼单",
+      "type": "出行",
+      "targetCount": 3,
+      "currentCount": 1,
+      "deadline": "44444-04-04T04:04",
+      "location": "学校西门",
+      "publisher": "当前用户",
+      "status": "open",
+      "description": "明日早上8：30",
+      "id": "wa9fEquA_0E"
     }
   ],
   "errands": [
     {
-      "id": 1,
+      "id": "1",
       "title": "帮取快递到宿舍楼下",
       "taskType": "取快递",
       "reward": 3,
@@ -212,7 +248,7 @@
       "description": "快递不大，取件码私聊发给您。"
     },
     {
-      "id": 2,
+      "id": "2",
       "title": "带一份黄焖鸡米饭到机房",
       "taskType": "带饭",
       "reward": 3,
@@ -224,7 +260,7 @@
       "description": "微辣多汤，到了联系我下楼取。"
     },
     {
-      "id": 3,
+      "id": "3",
       "title": "图书馆还书代跑",
       "taskType": "代办事",
       "reward": 2,
@@ -236,7 +272,7 @@
       "description": "两本书需要还，在宿舍门口交接即可。"
     },
     {
-      "id": 4,
+      "id": "4",
       "title": "帮忙打印课程论文",
       "taskType": "代办事",
       "reward": 2,
@@ -248,7 +284,7 @@
       "description": "约 15 页，双面打印，送到 7 号宿舍楼下。"
     },
     {
-      "id": 5,
+      "id": "5",
       "title": "顺路带杯咖啡到图书馆",
       "taskType": "带饭",
       "reward": 2,
@@ -258,6 +294,19 @@
       "publisher": "医学院学生",
       "status": "open",
       "description": "冰美式少冰，先转账后下单。"
+    },
+    {
+      "title": "快递帮去",
+      "taskType": "去快递",
+      "reward": 4,
+      "from": "北城门",
+      "to": "东1",
+      "deadline": "62044-04-04T04:04",
+      "publisher": "当前用户",
+      "status": "open",
+      "description": "快递小件的",
+      "id": "wSM6CVonBWo"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

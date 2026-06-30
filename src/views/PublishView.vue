@@ -1,92 +1,381 @@
 <template>
   <section class="page">
-    <div class="page-head">
+    <div class="page-header">
       <h2>发布信息</h2>
       <p>填写以下信息发布您的商品/信息，让更多同学看到</p>
     </div>
 
     <el-card shadow="never">
-      <el-tabs v-model="type">
-        <el-tab-pane label="二手商品" name="trade">
-          <el-form label-width="80px">
-            <el-form-item label="商品名称"><el-input v-model="form.title" placeholder="输入商品名称" /></el-form-item>
-            <el-form-item label="分类">
-              <el-select v-model="form.category" placeholder="选择分类" style="width:100%">
-                <el-option label="书籍" value="books" />
-                <el-option label="数码" value="digital" />
-                <el-option label="出行" value="transport" />
-                <el-option label="家电" value="appliance" />
-                <el-option label="娱乐" value="entertainment" />
-                <el-option label="其他" value="other" />
-              </el-select>
-            </el-form-item>
-            <el-form-item label="价格"><el-input v-model="form.price" placeholder="输入价格" /></el-form-item>
-            <el-form-item label="描述"><el-input v-model="form.desc" type="textarea" :rows="3" placeholder="描述商品情况" /></el-form-item>
-            <el-form-item><el-button type="primary" @click="handlePublish">发布商品</el-button></el-form-item>
-          </el-form>
-        </el-tab-pane>
-        <el-tab-pane label="失物招领" name="lost">
-          <el-form label-width="80px">
-            <el-form-item label="类型">
-              <el-radio-group v-model="lostType">
-                <el-radio value="lost">寻物</el-radio>
-                <el-radio value="found">招领</el-radio>
-              </el-radio-group>
-            </el-form-item>
-            <el-form-item label="物品名称"><el-input v-model="form.title" placeholder="输入物品名称" /></el-form-item>
-            <el-form-item label="丢失/拾到地点"><el-input v-model="form.location" placeholder="输入地点" /></el-form-item>
-            <el-form-item label="描述"><el-input v-model="form.desc" type="textarea" :rows="3" /></el-form-item>
-            <el-form-item label="联系方式"><el-input v-model="form.contact" placeholder="手机号或QQ" /></el-form-item>
-            <el-form-item><el-button type="primary" @click="handlePublish">发布信息</el-button></el-form-item>
-          </el-form>
-        </el-tab-pane>
-        <el-tab-pane label="拼单搭子" name="group">
-          <el-form label-width="80px">
-            <el-form-item label="标题"><el-input v-model="form.title" placeholder="例如：奶茶拼单" /></el-form-item>
-            <el-form-item label="描述"><el-input v-model="form.desc" type="textarea" :rows="3" /></el-form-item>
-            <el-form-item label="人数"><el-input-number v-model="form.max" :min="2" :max="20" /></el-form-item>
-            <el-form-item><el-button type="primary" @click="handlePublish">发布活动</el-button></el-form-item>
-          </el-form>
-        </el-tab-pane>
-        <el-tab-pane label="跑腿委托" name="errand">
-          <el-form label-width="80px">
-            <el-form-item label="任务标题"><el-input v-model="form.title" placeholder="例如：取快递" /></el-form-item>
-            <el-form-item label="任务地点"><el-input v-model="form.location" placeholder="取件/办理地点" /></el-form-item>
-            <el-form-item label="悬赏金额"><el-input v-model="form.price" placeholder="单位：元" /></el-form-item>
-            <el-form-item label="任务描述"><el-input v-model="form.desc" type="textarea" :rows="3" /></el-form-item>
-            <el-form-item><el-button type="primary" @click="handlePublish">发布任务</el-button></el-form-item>
-          </el-form>
-        </el-tab-pane>
-      </el-tabs>
+      <FormField label="发布类型" required>
+        <el-radio-group v-model="publishType">
+          <el-radio value="trade">二手商品</el-radio>
+          <el-radio value="lostFound">失物招领</el-radio>
+          <el-radio value="groupBuy">拼单搭子</el-radio>
+          <el-radio value="errand">跑腿委托</el-radio>
+        </el-radio-group>
+      </FormField>
+
+      <el-divider />
+
+      <!-- Common fields -->
+      <FormField label="标题" required :error="errors.title">
+        <el-input v-model="form.title" placeholder="请输入标题" />
+      </FormField>
+
+      <FormField label="地点" required :error="errors.location">
+        <el-input v-model="form.location" placeholder="请输入地点" />
+      </FormField>
+
+      <FormField label="描述" required :error="errors.description">
+        <el-input v-model="form.description" type="textarea" :rows="3" placeholder="请详细描述" />
+      </FormField>
+
+      <!-- Trade-specific fields -->
+      <template v-if="publishType === 'trade'">
+        <FormField label="商品分类" required :error="errors.category">
+          <el-input v-model="form.category" placeholder="如：数码配件、教材资料、生活用品" />
+        </FormField>
+
+        <FormField label="价格" required :error="errors.price">
+          <el-input v-model.number="form.price" type="number" min="0" placeholder="请输入价格" />
+        </FormField>
+
+        <FormField label="成色" required :error="errors.condition">
+          <el-select v-model="form.condition" placeholder="请选择成色" style="width:100%">
+            <el-option label="全新" value="全新" />
+            <el-option label="九成新" value="九成新" />
+            <el-option label="八成新" value="八成新" />
+            <el-option label="正常使用痕迹" value="正常使用痕迹" />
+          </el-select>
+        </FormField>
+      </template>
+
+      <!-- LostFound-specific fields -->
+      <template v-if="publishType === 'lostFound'">
+        <FormField label="信息类型" required>
+          <el-radio-group v-model="form.lostFoundType">
+            <el-radio value="lost">寻物</el-radio>
+            <el-radio value="found">招领</el-radio>
+          </el-radio-group>
+        </FormField>
+
+        <FormField label="物品名称" required :error="errors.itemName">
+          <el-input v-model="form.itemName" placeholder="请输入物品名称" />
+        </FormField>
+
+        <FormField label="发生时间" required :error="errors.eventTime">
+          <el-input v-model="form.eventTime" type="datetime-local" />
+        </FormField>
+      </template>
+
+      <!-- GroupBuy-specific fields -->
+      <template v-if="publishType === 'groupBuy'">
+        <FormField label="拼单类型" required :error="errors.groupType">
+          <el-input v-model="form.groupType" placeholder="如：拼餐、资料团购、运动搭子" />
+        </FormField>
+
+        <FormField label="目标人数" required :error="errors.targetCount">
+          <el-input v-model.number="form.targetCount" type="number" min="2" placeholder="请输入目标人数" />
+        </FormField>
+
+        <FormField label="截止时间" required :error="errors.deadline">
+          <el-input v-model="form.deadline" type="datetime-local" />
+        </FormField>
+      </template>
+
+      <!-- Errand-specific fields -->
+      <template v-if="publishType === 'errand'">
+        <FormField label="任务类型" required :error="errors.taskType">
+          <el-input v-model="form.taskType" placeholder="如：取快递、代买、代送" />
+        </FormField>
+
+        <FormField label="酬劳" required :error="errors.reward">
+          <el-input v-model.number="form.reward" type="number" min="0" placeholder="请输入酬劳" />
+        </FormField>
+
+        <FormField label="取件地点" required :error="errors.from">
+          <el-input v-model="form.from" placeholder="请输入取件地点" />
+        </FormField>
+
+        <FormField label="送达地点" required :error="errors.to">
+          <el-input v-model="form.to" placeholder="请输入送达地点" />
+        </FormField>
+
+        <FormField label="截止时间" required :error="errors.deadline">
+          <el-input v-model="form.deadline" type="datetime-local" />
+        </FormField>
+      </template>
+
+      <el-divider />
+
+      <form class="publish-form" @submit.prevent="handleSubmit">
+        <div class="actions">
+          <el-button native-type="submit" type="primary" size="large" :loading="submitting">发布</el-button>
+          <el-button size="large" @click="resetForm">重置</el-button>
+        </div>
+      </form>
     </el-card>
   </section>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { reactive, ref, watch } from 'vue'
 import { ElMessage } from 'element-plus'
+import { useRouter } from 'vue-router'
 
-const type = ref('trade')
-const lostType = ref('lost')
+import FormField from '../components/FormField.vue'
+import { createTrade } from '../api/trade'
+import { createLostFound } from '../api/lostFound'
+import { createGroupBuy } from '../api/groupBuy'
+import { createErrand } from '../api/errand'
+
+type PublishType = 'trade' | 'lostFound' | 'groupBuy' | 'errand'
+
+const router = useRouter()
+const publishType = ref<PublishType>('trade')
+
+watch(publishType, () => {
+  resetForm()
+})
+const submitting = ref(false)
 
 const form = reactive({
   title: '',
-  category: '',
-  price: '',
-  desc: '',
   location: '',
-  contact: '',
-  max: 2,
+  description: '',
+  category: '',
+  price: 0,
+  condition: '',
+  lostFoundType: 'lost',
+  itemName: '',
+  eventTime: '',
+  groupType: '',
+  targetCount: 2,
+  deadline: '',
+  taskType: '',
+  reward: 0,
+  from: '',
+  to: '',
 })
 
-function handlePublish() {
-  ElMessage.success('发布成功！（演示功能）')
+const errors = reactive<Record<string, string>>({})
+
+function clearErrors() {
+  Object.keys(errors).forEach((key) => {
+    errors[key] = ''
+  })
+}
+
+function validateForm() {
+  clearErrors()
+
+  if (!form.title) {
+    errors.title = '请输入标题'
+  }
+
+  if (!form.location) {
+    errors.location = '请输入地点'
+  }
+
+  if (!form.description) {
+    errors.description = '请输入描述'
+  }
+
+  if (publishType.value === 'trade') {
+    if (!form.category) {
+      errors.category = '请输入商品分类'
+    }
+    if (form.price <= 0) {
+      errors.price = '价格应大于 0'
+    }
+    if (!form.condition) {
+      errors.condition = '请选择商品成色'
+    }
+  }
+
+  if (publishType.value === 'lostFound') {
+    if (!form.itemName) {
+      errors.itemName = '请输入物品名称'
+    }
+    if (!form.eventTime) {
+      errors.eventTime = '请选择发生时间'
+    }
+  }
+
+  if (publishType.value === 'groupBuy') {
+    if (!form.groupType) {
+      errors.groupType = '请输入拼单类型'
+    }
+    if (form.targetCount < 2) {
+      errors.targetCount = '目标人数不能少于 2 人'
+    }
+    if (!form.deadline) {
+      errors.deadline = '请选择截止时间'
+    }
+  }
+
+  if (publishType.value === 'errand') {
+    if (!form.taskType) {
+      errors.taskType = '请输入任务类型'
+    }
+    if (form.reward < 0) {
+      errors.reward = '酬劳不能为负数'
+    }
+    if (!form.from) {
+      errors.from = '请输入取件地点'
+    }
+    if (!form.to) {
+      errors.to = '请输入送达地点'
+    }
+    if (!form.deadline) {
+      errors.deadline = '请选择截止时间'
+    }
+  }
+
+  return Object.values(errors).every((message) => !message)
+}
+
+function getCurrentTime() {
+  const now = new Date()
+  return now.toISOString().slice(0, 16).replace('T', ' ')
+}
+
+async function handleSubmit() {
+  if (!validateForm()) {
+    return
+  }
+
+  submitting.value = true
+
+  try {
+    if (publishType.value === 'trade') {
+      await createTrade({
+        title: form.title,
+        category: form.category,
+        price: form.price,
+        condition: form.condition,
+        location: form.location,
+        publisher: '当前用户',
+        publishTime: getCurrentTime(),
+        image: '',
+        status: 'open',
+        description: form.description,
+      })
+
+      ElMessage.success('二手商品发布成功')
+      router.push('/trade')
+    }
+
+    if (publishType.value === 'lostFound') {
+      await createLostFound({
+        title: form.title,
+        type: form.lostFoundType as 'lost' | 'found',
+        itemName: form.itemName,
+        location: form.location,
+        eventTime: form.eventTime,
+        contact: '站内消息联系',
+        status: 'open',
+        description: form.description,
+      })
+
+      ElMessage.success('失物招领信息发布成功')
+      router.push('/lost-found')
+    }
+
+    if (publishType.value === 'groupBuy') {
+      await createGroupBuy({
+        title: form.title,
+        type: form.groupType,
+        targetCount: form.targetCount,
+        currentCount: 1,
+        deadline: form.deadline,
+        location: form.location,
+        publisher: '当前用户',
+        status: 'open',
+        description: form.description,
+      })
+
+      ElMessage.success('拼单搭子信息发布成功')
+      router.push('/group-buy')
+    }
+
+    if (publishType.value === 'errand') {
+      await createErrand({
+        title: form.title,
+        taskType: form.taskType,
+        reward: form.reward,
+        from: form.from,
+        to: form.to,
+        deadline: form.deadline,
+        publisher: '当前用户',
+        status: 'open',
+        description: form.description,
+      })
+
+      ElMessage.success('跑腿委托发布成功')
+      router.push('/errand')
+    }
+  } catch (error) {
+    console.error(error)
+    ElMessage.error('发布失败，请检查 Mock 服务是否正常运行')
+  } finally {
+    submitting.value = false
+  }
+}
+
+function resetForm() {
+  form.title = ''
+  form.location = ''
+  form.description = ''
+  form.category = ''
+  form.price = 0
+  form.condition = ''
+  form.lostFoundType = 'lost'
+  form.itemName = ''
+  form.eventTime = ''
+  form.groupType = ''
+  form.targetCount = 2
+  form.deadline = ''
+  form.taskType = ''
+  form.reward = 0
+  form.from = ''
+  form.to = ''
+
+  clearErrors()
 }
 </script>
 
 <style scoped>
-.page { max-width: 960px; margin: 0 auto; }
-.page-head { margin-bottom: 24px; }
-.page-head h2 { font-size: 22px; font-weight: 700; color: #303133; }
-.page-head p { color: #909399; font-size: 14px; margin-top: 4px; }
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.page-header {
+  padding: 24px;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.page-header h2 {
+  margin: 0 0 8px;
+}
+
+.page-header p {
+  margin: 0;
+  color: #6b7280;
+}
+
+.publish-form {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
 </style>
