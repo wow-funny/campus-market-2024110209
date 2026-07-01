@@ -1,6 +1,6 @@
 <template>
   <section class="page">
-    <div class="page-header">
+    <div class="page-header page-header--lostfound">
       <h1>失物招领</h1>
       <p>发布和查看失物 / 招领信息，互帮互助。</p>
     </div>
@@ -40,21 +40,6 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   gap: 20px;
-}
-
-.page-header {
-  padding: 24px;
-  border-radius: 16px;
-  background: #fff;
-}
-
-.page-header h1 {
-  margin: 0 0 8px;
-}
-
-.page-header p {
-  margin: 0;
-  color: #6b7280;
 }
 
 .list {

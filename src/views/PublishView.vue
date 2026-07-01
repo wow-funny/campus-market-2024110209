@@ -1,6 +1,6 @@
 <template>
   <section class="page">
-    <div class="page-header">
+    <div class="page-header page-header--publish">
       <h2>发布信息</h2>
       <p>填写以下信息发布您的商品/信息，让更多同学看到</p>
     </div>
@@ -128,10 +128,12 @@ import { createTrade } from '../api/trade'
 import { createLostFound } from '../api/lostFound'
 import { createGroupBuy } from '../api/groupBuy'
 import { createErrand } from '../api/errand'
+import { useUserStore } from '../stores/user'
 
 type PublishType = 'trade' | 'lostFound' | 'groupBuy' | 'errand'
 
 const router = useRouter()
+const userStore = useUserStore()
 const publishType = ref<PublishType>('trade')
 
 watch(publishType, () => {
@@ -255,7 +257,7 @@ async function handleSubmit() {
         price: form.price,
         condition: form.condition,
         location: form.location,
-        publisher: '当前用户',
+        publisher: userStore.displayName,
         publishTime: getCurrentTime(),
         image: '',
         status: 'open',
@@ -290,7 +292,7 @@ async function handleSubmit() {
         currentCount: 1,
         deadline: form.deadline,
         location: form.location,
-        publisher: '当前用户',
+        publisher: userStore.displayName,
         status: 'open',
         description: form.description,
       })
@@ -307,7 +309,7 @@ async function handleSubmit() {
         from: form.from,
         to: form.to,
         deadline: form.deadline,
-        publisher: '当前用户',
+        publisher: userStore.displayName,
         status: 'open',
         description: form.description,
       })
@@ -350,27 +352,6 @@ function resetForm() {
   display: flex;
   flex-direction: column;
   gap: 20px;
-}
-
-.page-header {
-  padding: 24px;
-  border-radius: 16px;
-  background: #fff;
-}
-
-.page-header h2 {
-  margin: 0 0 8px;
-}
-
-.page-header p {
-  margin: 0;
-  color: #6b7280;
-}
-
-.publish-form {
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
 }
 
 .actions {

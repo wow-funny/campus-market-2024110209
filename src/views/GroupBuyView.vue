@@ -1,6 +1,6 @@
 <template>
   <section class="page">
-    <div class="page-header">
+    <div class="page-header page-header--groupbuy">
       <h1>拼单搭子</h1>
       <p>和同学们一起拼单，省钱又省心。</p>
     </div>
@@ -46,21 +46,6 @@ onMounted(async () => {
   gap: 20px;
 }
 
-.page-header {
-  padding: 24px;
-  border-radius: 16px;
-  background: #fff;
-}
-
-.page-header h1 {
-  margin: 0 0 8px;
-}
-
-.page-header p {
-  margin: 0;
-  color: #6b7280;
-}
-
 .list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -68,7 +53,7 @@ onMounted(async () => {
 }
 
 .progress {
-  color: #6b7280;
+  color: var(--campus-text-secondary);
   font-size: 13px;
 }
 </style>

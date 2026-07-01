@@ -1,6 +1,6 @@
 <template>
   <section class="page">
-    <div class="page-header">
+    <div class="page-header page-header--errand">
       <h1>跑腿委托</h1>
       <p>顺手帮个忙，赚点零花钱。</p>
     </div>
@@ -44,21 +44,6 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   gap: 20px;
-}
-
-.page-header {
-  padding: 24px;
-  border-radius: 16px;
-  background: #fff;
-}
-
-.page-header h1 {
-  margin: 0 0 8px;
-}
-
-.page-header p {
-  margin: 0;
-  color: #6b7280;
 }
 
 .list {

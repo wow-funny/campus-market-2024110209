@@ -64,14 +64,20 @@ const filteredList = computed(() => {
 
 <style scoped>
 .page { max-width: 960px; margin: 0 auto; }
-.page-head { margin-bottom: 24px; }
-.page-head h2 { font-size: 22px; font-weight: 700; color: #303133; }
-.page-head p { color: #909399; font-size: 14px; margin-top: 4px; }
-.msg-item { display: flex; gap: 12px; padding: 16px 0; border-bottom: 1px solid #f0f0f0; }
+.page-head {
+  padding: 24px;
+  border-radius: var(--campus-radius);
+  background: var(--campus-card-bg);
+  border: 1px solid var(--campus-border);
+  margin-bottom: 24px;
+}
+.page-head h2 { margin: 0 0 4px; font-size: 22px; font-weight: 700; color: var(--campus-text); }
+.page-head p { margin: 0; color: var(--campus-text-secondary); font-size: 14px; }
+.msg-item { display: flex; gap: 12px; padding: 16px 0; border-bottom: 1px solid #f1f5f9; }
 .msg-item:last-child { border-bottom: none; }
 .msg-body { flex: 1; min-width: 0; }
 .msg-head { display: flex; justify-content: space-between; align-items: center; }
-.msg-title { font-size: 14px; font-weight: 600; color: #303133; }
-.msg-time { font-size: 12px; color: #c0c4cc; }
-.msg-desc { font-size: 13px; color: #606266; margin: 4px 0 0; }
+.msg-title { font-size: 14px; font-weight: 600; color: var(--campus-text); }
+.msg-time { font-size: 12px; color: #94a3b8; }
+.msg-desc { font-size: 13px; color: var(--campus-text-secondary); margin: 4px 0 0; }
 </style>

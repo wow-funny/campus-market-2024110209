@@ -2,8 +2,10 @@
 import { useRouter } from 'vue-router'
 import { Bell, Plus } from '@element-plus/icons-vue'
 import AppNav from './AppNav.vue'
+import { useUserStore } from '../stores/user'
 
 const router = useRouter()
+const userStore = useUserStore()
 </script>
 
 <template>
@@ -26,8 +28,8 @@ const router = useRouter()
         </el-button>
         <el-dropdown trigger="click">
           <div class="user-area">
-            <el-avatar :size="32" class="user-avatar">U</el-avatar>
-            <span class="user-name">校园用户</span>
+            <el-avatar :size="32" class="user-avatar">{{ userStore.currentUser.name?.[0] ?? '?' }}</el-avatar>
+            <span class="user-name">{{ userStore.displayName }}</span>
           </div>
           <template #dropdown>
             <el-dropdown-menu>
@@ -43,8 +45,10 @@ const router = useRouter()
 
 <style scoped>
 .app-header {
-  background: #fff;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 var(--campus-border), 0 4px 20px rgba(99, 102, 241, 0.06);
   padding: 0 32px;
   position: sticky;
   top: 0;
@@ -72,7 +76,7 @@ const router = useRouter()
 .logo-icon {
   width: 34px;
   height: 34px;
-  background: linear-gradient(135deg, #409eff 0%, #7c3aed 100%);
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #06b6d4 100%);
   color: #fff;
   border-radius: 10px;
   display: flex;
@@ -81,7 +85,7 @@ const router = useRouter()
   font-weight: 800;
   font-size: 18px;
   letter-spacing: -1px;
-  box-shadow: 0 2px 8px rgba(64, 158, 255, 0.3);
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
 }
 
 .logo-group {
@@ -92,13 +96,17 @@ const router = useRouter()
 .logo-text {
   font-size: 17px;
   font-weight: 700;
-  color: #1a1a2e;
+  background: linear-gradient(135deg, #6366f1, #06b6d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   line-height: 1.2;
 }
 
 .logo-sub {
   font-size: 11px;
-  color: #c0c4cc;
+  color: #94a3b8;
+  -webkit-text-fill-color: #94a3b8;
   letter-spacing: 0.5px;
 }
 
@@ -126,17 +134,19 @@ const router = useRouter()
   align-items: center;
   gap: 8px;
   cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 8px;
-  transition: background 0.2s;
+  padding: 4px 12px 4px 8px;
+  border-radius: 999px;
+  transition: all 0.2s;
+  border: 1px solid var(--campus-border);
 }
 
 .user-area:hover {
-  background: #f0f7ff;
+  background: #eef2ff;
+  border-color: #c7d2fe;
 }
 
 .user-avatar {
-  background: linear-gradient(135deg, #409eff, #7c3aed);
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
   color: #fff;
   font-weight: 600;
   font-size: 14px;
@@ -144,12 +154,19 @@ const router = useRouter()
 
 .user-name {
   font-size: 14px;
-  color: #303133;
+  color: var(--campus-text);
   font-weight: 500;
 }
 
 .publish-btn {
   font-weight: 600;
-  border-radius: 8px;
+  border-radius: 999px;
+  padding: 8px 16px !important;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+  border: none !important;
+}
+
+.publish-btn:hover {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
 }
 </style>

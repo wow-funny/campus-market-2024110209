@@ -102,7 +102,8 @@
       "eventTime": "2026-06-02 12:10",
       "contact": "站内消息联系",
       "status": "open",
-      "description": "校园卡卡套为黑色，内含学生证，姓名张同学。"
+      "description": "校园卡卡套为黑色，内含学生证，姓名张同学。",
+      "publisher": "张同学"
     },
     {
       "id": "2",
@@ -113,7 +114,8 @@
       "eventTime": "2026-06-02 18:40",
       "contact": "站内消息联系",
       "status": "open",
-      "description": "蓝色长柄雨伞，放在 A 区一楼值班室。"
+      "description": "蓝色长柄雨伞，放在 A 区一楼值班室。",
+      "publisher": "计算机学院学生"
     },
     {
       "id": "3",
@@ -124,7 +126,8 @@
       "eventTime": "2026-06-03 07:30",
       "contact": "站内消息联系",
       "status": "open",
-      "description": "灰色双肩包，侧面有水杯袋，内有英语课本。"
+      "description": "灰色双肩包，侧面有水杯袋，内有英语课本。",
+      "publisher": "李同学"
     },
     {
       "id": "4",
@@ -135,7 +138,8 @@
       "eventTime": "2026-06-03 12:00",
       "contact": "站内消息联系",
       "status": "open",
-      "description": "白色 AirPods 耳机仓，已交至食堂失物招领处。"
+      "description": "白色 AirPods 耳机仓，已交至食堂失物招领处。",
+      "publisher": "王同学"
     },
     {
       "id": "5",
@@ -146,7 +150,8 @@
       "eventTime": "2026-06-04 10:15",
       "contact": "站内消息联系",
       "status": "open",
-      "description": "32G 银色闪迪 U 盘，内有课程设计资料。"
+      "description": "32G 银色闪迪 U 盘，内有课程设计资料。",
+      "publisher": "信息学院学生"
     },
     {
       "title": "寻找书包",
@@ -157,6 +162,7 @@
       "contact": "站内消息联系",
       "status": "open",
       "description": "颜色为红色",
+      "publisher": "当前用户",
       "id": "NK1KXxDfLzE"
     }
   ],
@@ -307,6 +313,5 @@
       "description": "快递小件的",
       "id": "wSM6CVonBWo"
     }
-  ],
-  "$schema": "./node_modules/json-server/schema.json"
+  ]
 }

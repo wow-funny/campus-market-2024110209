@@ -1,6 +1,6 @@
 <template>
   <section class="page">
-    <div class="page-header">
+    <div class="page-header page-header--trade">
       <h1>二手交易</h1>
       <p>浏览同学发布的闲置物品，发现校园内的实用好物。</p>
     </div>
@@ -18,6 +18,19 @@
         <template #footer>
           <strong>￥{{ item.price }}</strong>
           <span class="condition">{{ item.condition }}</span>
+          <button
+            class="favorite-btn"
+            :class="{ 'is-favorited': favoriteStore.isFavorite('trade', item.id!) }"
+            @click="favoriteStore.toggleFavorite({
+              id: item.id!,
+              type: 'trade',
+              title: item.title,
+              description: item.description,
+              location: item.location
+            })"
+          >
+            {{ favoriteStore.isFavorite('trade', item.id!) ? '★ 已收藏' : '☆ 收藏' }}
+          </button>
         </template>
       </ItemCard>
     </div>
@@ -31,7 +44,9 @@ import { onMounted, ref } from 'vue'
 import ItemCard from '../components/ItemCard.vue'
 import EmptyState from '../components/EmptyState.vue'
 import { getTrades, type TradeItem } from '../api/trade'
+import { useFavoriteStore } from '../stores/favorite'
 
+const favoriteStore = useFavoriteStore()
 const trades = ref<TradeItem[]>([])
 
 onMounted(async () => {
@@ -47,21 +62,6 @@ onMounted(async () => {
   gap: 20px;
 }
 
-.page-header {
-  padding: 24px;
-  border-radius: 16px;
-  background: #fff;
-}
-
-.page-header h1 {
-  margin: 0 0 8px;
-}
-
-.page-header p {
-  margin: 0;
-  color: #6b7280;
-}
-
 .list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -70,6 +70,33 @@ onMounted(async () => {
 
 .condition {
   margin-left: 12px;
-  color: #6b7280;
+  color: var(--campus-text-secondary);
+  font-size: 13px;
+}
+
+.favorite-btn {
+  margin-left: 12px;
+  border: none;
+  border-radius: 999px;
+  padding: 5px 12px;
+  cursor: pointer;
+  background: #f1f5f9;
+  color: #64748b;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+
+.favorite-btn:hover {
+  background: #eef2ff;
+  color: #6366f1;
+}
+
+.favorite-btn.is-favorited {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.favorite-btn.is-favorited:hover {
+  background: #fde68a;
 }
 </style>

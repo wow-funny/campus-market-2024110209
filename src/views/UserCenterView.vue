@@ -1,76 +1,288 @@
 <template>
   <section class="page">
-    <el-card shadow="never" class="user-card">
-      <div class="user-info">
-        <el-avatar :size="64" class="user-avatar">用</el-avatar>
-        <div>
-          <h2>用户昵称</h2>
-          <p>计算机科学与技术 · 2023级</p>
-          <el-tag size="small" type="success">已认证</el-tag>
-        </div>
+    <div class="profile-card">
+      <div class="avatar">
+        {{ userStore.displayName.slice(0, 1) }}
       </div>
-    </el-card>
 
-    <el-row :gutter="16" class="stats-row">
-      <el-col v-for="s in stats" :key="s.label" :span="6">
-        <el-card shadow="never" class="stat-card">
-          <p class="stat-num">{{ s.num }}</p>
-          <p class="stat-label">{{ s.label }}</p>
-        </el-card>
-      </el-col>
-    </el-row>
-
-    <el-card shadow="never">
-      <el-menu :default-active="activeMenu" class="user-menu">
-        <el-menu-item index="publish" @click="activeMenu = 'publish'">
-          <el-icon><List /></el-icon><span>我的发布</span>
-        </el-menu-item>
-        <el-menu-item index="favorite" @click="activeMenu = 'favorite'">
-          <el-icon><Star /></el-icon><span>我的收藏</span>
-        </el-menu-item>
-        <el-menu-item index="history" @click="activeMenu = 'history'">
-          <el-icon><Clock /></el-icon><span>浏览记录</span>
-        </el-menu-item>
-        <el-menu-item index="setting" @click="activeMenu = 'setting'">
-          <el-icon><Setting /></el-icon><span>账户设置</span>
-        </el-menu-item>
-      </el-menu>
-
-      <div class="menu-content">
-        <el-empty v-if="activeMenu === 'publish'" description="还没有发布过内容" />
-        <el-empty v-else-if="activeMenu === 'favorite'" description="还没有收藏" />
-        <el-empty v-else-if="activeMenu === 'history'" description="暂无浏览记录" />
-        <el-empty v-else description="账户设置功能开发中" />
+      <div>
+        <h1>{{ userStore.displayName }}</h1>
+        <p>{{ userStore.userDescription }}</p>
+        <p>{{ userStore.currentUser.bio }}</p>
       </div>
-    </el-card>
+    </div>
+
+    <div class="panel">
+      <h2>我的收藏</h2>
+
+      <EmptyState
+        v-if="favoriteStore.favorites.length === 0"
+        text="暂无收藏内容"
+      />
+
+      <div v-else class="favorite-list">
+        <ItemCard
+          v-for="item in favoriteStore.favorites"
+          :key="`${item.type}-${item.id}`"
+          :title="item.title"
+          :description="item.description"
+          :tag="getTypeLabel(item.type)"
+          :location="item.location"
+        >
+          <template #footer>
+            <button class="remove-btn" @click="favoriteStore.removeFavorite(item.type, item.id)">
+              取消收藏
+            </button>
+          </template>
+        </ItemCard>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>我的发布</h2>
+
+      <div v-if="loading" class="loading-tip">加载中...</div>
+
+      <EmptyState
+        v-else-if="myPublishedItems.length === 0"
+        text="还没有发布过内容"
+      />
+
+      <div v-else class="favorite-list">
+        <ItemCard
+          v-for="item in myPublishedItems"
+          :key="`${item.type}-${item.id}`"
+          :title="item.title"
+          :description="item.description"
+          :tag="getTypeLabel(item.type)"
+          :location="item.location"
+          :time="item.time"
+        />
+      </div>
+    </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { List, Star, Clock, Setting } from '@element-plus/icons-vue'
+import { computed, onMounted, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
+import { ElMessage } from 'element-plus'
+import EmptyState from '../components/EmptyState.vue'
+import ItemCard from '../components/ItemCard.vue'
+import { useFavoriteStore } from '../stores/favorite'
+import { useUserStore } from '../stores/user'
+import { getTrades, type TradeItem } from '../api/trade'
+import { getLostFounds, type LostFoundItem } from '../api/lostFound'
+import { getGroupBuys, type GroupBuyItem } from '../api/groupBuy'
+import { getErrands, type ErrandItem } from '../api/errand'
 
-const activeMenu = ref('publish')
+interface PublishedItem {
+  id: number | string
+  type: string
+  title: string
+  description: string
+  location?: string
+  time?: string
+}
 
-const stats = [
-  { num: 3, label: '发布' },
-  { num: 8, label: '收藏' },
-  { num: 12, label: '浏览' },
-  { num: 4, label: '评价' },
-]
+const userStore = useUserStore()
+const favoriteStore = useFavoriteStore()
+const route = useRoute()
+
+const trades = ref<TradeItem[]>([])
+const lostFounds = ref<LostFoundItem[]>([])
+const groupBuys = ref<GroupBuyItem[]>([])
+const errands = ref<ErrandItem[]>([])
+const loading = ref(true)
+
+async function fetchMyPublished() {
+  loading.value = true
+
+  const results = await Promise.allSettled([
+    getTrades(),
+    getLostFounds(),
+    getGroupBuys(),
+    getErrands(),
+  ])
+
+  const [tResult, lfResult, gbResult, eResult] = results
+
+  if (tResult.status === 'fulfilled') {
+    trades.value = tResult.value.data
+  } else {
+    ElMessage.error('加载二手交易数据失败')
+  }
+
+  if (lfResult.status === 'fulfilled') {
+    lostFounds.value = lfResult.value.data
+  } else {
+    ElMessage.error('加载失物招领数据失败')
+  }
+
+  if (gbResult.status === 'fulfilled') {
+    groupBuys.value = gbResult.value.data
+  } else {
+    ElMessage.error('加载拼单数据失败')
+  }
+
+  if (eResult.status === 'fulfilled') {
+    errands.value = eResult.value.data
+  } else {
+    ElMessage.error('加载跑腿数据失败')
+  }
+
+  loading.value = false
+}
+
+onMounted(fetchMyPublished)
+
+watch(() => route.path, fetchMyPublished)
+
+const myPublishedItems = computed<PublishedItem[]>(() => {
+  const publisherName = userStore.displayName
+  const items: PublishedItem[] = []
+  let fallbackId = 0
+
+  for (const item of trades.value) {
+    if (item.publisher === publisherName || item.publisher === '当前用户') {
+      items.push({
+        id: item.id ?? `fallback-${fallbackId++}`,
+        type: 'trade',
+        title: item.title,
+        description: item.description,
+        location: item.location,
+        time: item.publishTime,
+      })
+    }
+  }
+
+  for (const item of lostFounds.value) {
+    if ('publisher' in item && (item.publisher === publisherName || item.publisher === '当前用户')) {
+      items.push({
+        id: item.id ?? `fallback-${fallbackId++}`,
+        type: 'lostFound',
+        title: item.title,
+        description: item.description,
+        location: item.location,
+        time: item.eventTime,
+      })
+    }
+  }
+
+  for (const item of groupBuys.value) {
+    if (item.publisher === publisherName || item.publisher === '当前用户') {
+      items.push({
+        id: item.id ?? `fallback-${fallbackId++}`,
+        type: 'groupBuy',
+        title: item.title,
+        description: item.description,
+        location: item.location,
+        time: item.deadline,
+      })
+    }
+  }
+
+  for (const item of errands.value) {
+    if (item.publisher === publisherName || item.publisher === '当前用户') {
+      items.push({
+        id: item.id ?? `fallback-${fallbackId++}`,
+        type: 'errand',
+        title: item.title,
+        description: item.description,
+        location: `${item.from} → ${item.to}`,
+        time: item.deadline,
+      })
+    }
+  }
+
+  return items
+})
+
+function getTypeLabel(type: string) {
+  const map: Record<string, string> = {
+    trade: '二手交易',
+    lostFound: '失物招领',
+    groupBuy: '拼单搭子',
+    errand: '跑腿委托',
+  }
+
+  return map[type] || '校园信息'
+}
 </script>
 
 <style scoped>
-.page { max-width: 960px; margin: 0 auto; }
-.user-card { margin-bottom: 16px; border-radius: 12px; }
-.user-info { display: flex; align-items: center; gap: 16px; }
-.user-avatar { background: #409eff; }
-.user-info h2 { font-size: 20px; font-weight: 700; margin: 0; }
-.user-info p { color: #909399; font-size: 14px; margin: 4px 0; }
-.stats-row { margin-bottom: 16px; }
-.stat-card { text-align: center; border-radius: 12px; }
-.stat-num { font-size: 24px; font-weight: 700; color: #303133; margin: 0; }
-.stat-label { color: #909399; font-size: 12px; margin: 4px 0 0; }
-.user-menu { border-right: none; }
-.menu-content { padding: 24px; }
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.profile-card,
+.panel {
+  padding: 24px;
+  border-radius: var(--campus-radius);
+  background: var(--campus-card-bg);
+  border: 1px solid var(--campus-border);
+}
+
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: linear-gradient(135deg, #eef2ff 0%, #ffffff 60%);
+}
+
+.avatar {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff;
+  font-size: 30px;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+}
+
+.profile-card h1,
+.panel h2 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  color: var(--campus-text);
+}
+
+.profile-card p {
+  margin: 4px 0;
+  color: var(--campus-text-secondary);
+  line-height: 1.6;
+}
+
+.favorite-list {
+  display: grid;
+  gap: 16px;
+}
+
+.remove-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 5px 12px;
+  cursor: pointer;
+  background: #f1f5f9;
+  color: #64748b;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+
+.remove-btn:hover {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+.loading-tip {
+  padding: 40px 0;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 14px;
+}
 </style>
