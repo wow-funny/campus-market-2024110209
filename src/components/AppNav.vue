@@ -6,10 +6,10 @@ const route = useRoute()
 
 const navItems = [
   { path: '/', label: '首页', icon: HomeFilled },
-  { path: '/trade', label: '交易', icon: Goods },
+  { path: '/trade', label: '二手交易', icon: Goods },
   { path: '/lost-found', label: '失物招领', icon: Clock },
-  { path: '/group-buy', label: '拼团', icon: DataAnalysis },
-  { path: '/errand', label: '跑腿', icon: GobletFull },
+  { path: '/group-buy', label: '拼单搭子', icon: DataAnalysis },
+  { path: '/errand', label: '跑腿委托', icon: GobletFull },
   { path: '/message', label: '消息', icon: ChatDotSquare },
   { path: '/user', label: '我的', icon: UserFilled },
 ]
@@ -25,7 +25,6 @@ const navItems = [
     >
       <el-icon :size="16"><component :is="item.icon" /></el-icon>
       <span>{{ item.label }}</span>
-      <span class="nav-indicator" />
     </router-link>
   </nav>
 </template>
@@ -64,7 +63,4 @@ const navItems = [
   background: #eef2ff;
 }
 
-.nav-indicator {
-  display: none;
-}
 </style>

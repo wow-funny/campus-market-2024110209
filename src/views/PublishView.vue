@@ -19,15 +19,15 @@
 
       <!-- Common fields -->
       <FormField label="标题" required :error="errors.title">
-        <el-input v-model="form.title" placeholder="请输入标题" />
+        <el-input v-model="form.title" :placeholder="placeholders('title')" />
       </FormField>
 
       <FormField label="地点" required :error="errors.location">
-        <el-input v-model="form.location" placeholder="请输入地点" />
+        <el-input v-model="form.location" :placeholder="placeholders('location')" />
       </FormField>
 
       <FormField label="描述" required :error="errors.description">
-        <el-input v-model="form.description" type="textarea" :rows="3" placeholder="请详细描述" />
+        <el-input v-model="form.description" type="textarea" :rows="3" :placeholder="placeholders('description')" />
       </FormField>
 
       <!-- Trade-specific fields -->
@@ -37,7 +37,7 @@
         </FormField>
 
         <FormField label="价格" required :error="errors.price">
-          <el-input v-model.number="form.price" type="number" min="0" placeholder="请输入价格" />
+          <el-input v-model.number="form.price" type="number" min="0" placeholder="请输入价格（元）" />
         </FormField>
 
         <FormField label="成色" required :error="errors.condition">
@@ -60,11 +60,11 @@
         </FormField>
 
         <FormField label="物品名称" required :error="errors.itemName">
-          <el-input v-model="form.itemName" placeholder="请输入物品名称" />
+          <el-input v-model="form.itemName" placeholder="如：黑色校园卡、蓝色保温杯" />
         </FormField>
 
         <FormField label="发生时间" required :error="errors.eventTime">
-          <el-input v-model="form.eventTime" type="datetime-local" />
+          <el-input v-model="form.eventTime" type="datetime-local" placeholder="选择遗失或拾取时间" />
         </FormField>
       </template>
 
@@ -94,11 +94,11 @@
         </FormField>
 
         <FormField label="取件地点" required :error="errors.from">
-          <el-input v-model="form.from" placeholder="请输入取件地点" />
+          <el-input v-model="form.from" placeholder="如：菜鸟驿站、c教102" />
         </FormField>
 
         <FormField label="送达地点" required :error="errors.to">
-          <el-input v-model="form.to" placeholder="请输入送达地点" />
+          <el-input v-model="form.to" placeholder="如：东区宿舍、图书馆" />
         </FormField>
 
         <FormField label="截止时间" required :error="errors.deadline">
@@ -136,8 +136,35 @@ const router = useRouter()
 const userStore = useUserStore()
 const publishType = ref<PublishType>('trade')
 
+function placeholders(field: 'title' | 'location' | 'description') {
+  const map: Record<PublishType, Record<string, string>> = {
+    trade: {
+      title: '如：九成新机械键盘',
+      location: '如：东区宿舍',
+      description: '请描述物品状况、交易方式等关键信息',
+    },
+    lostFound: {
+      title: '如：寻找黑色校园卡',
+      location: '如：图书馆门口',
+      description: '请描述物品外观特征、遗失或拾取时间地点',
+    },
+    groupBuy: {
+      title: '如：一起拼奶茶',
+      location: '如：食堂二楼',
+      description: '请描述拼单详情、费用分摊方式',
+    },
+    errand: {
+      title: '如：帮取快递',
+      location: '如：菜鸟驿站',
+      description: '请描述任务要求、送达时限等',
+    },
+  }
+  return map[publishType.value][field]
+}
+
 watch(publishType, () => {
   resetForm()
+  ElMessage.info('已切换发布类型，请填写对应信息')
 })
 const submitting = ref(false)
 
@@ -247,6 +274,12 @@ async function handleSubmit() {
     return
   }
 
+  if (!userStore.isLoggedIn || !userStore.currentUser) {
+    ElMessage.warning('请先登录后再发布信息')
+    router.push('/login')
+    return
+  }
+
   submitting.value = true
 
   try {
@@ -317,9 +350,8 @@ async function handleSubmit() {
       ElMessage.success('跑腿委托发布成功')
       router.push('/errand')
     }
-  } catch (error) {
-    console.error(error)
-    ElMessage.error('发布失败，请检查 Mock 服务是否正常运行')
+  } catch {
+    ElMessage.error('发布失败，请确认 JSON Server 已启动，并检查表单数据是否完整。')
   } finally {
     submitting.value = false
   }

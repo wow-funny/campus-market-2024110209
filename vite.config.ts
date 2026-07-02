@@ -21,6 +21,7 @@ export default defineConfig({
       '/lostFounds': 'http://localhost:3000',
       '/groupBuys': 'http://localhost:3000',
       '/errands': 'http://localhost:3000',
+      '/users': 'http://localhost:3000',
     },
   },
 })

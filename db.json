@@ -1,4 +1,26 @@
 {
+  "users": [
+    {
+      "id": "1",
+      "username": "student",
+      "password": "123456",
+      "name": "校园用户",
+      "college": "计算机学院",
+      "grade": "2023级",
+      "avatar": "",
+      "bio": "热爱校园生活，喜欢分享闲置好物。"
+    },
+    {
+      "username": "demo",
+      "password": "123456",
+      "name": "张三",
+      "college": "计算机学院",
+      "grade": "2024",
+      "avatar": "",
+      "bio": "这个同学还没有填写个人简介。",
+      "id": "jRfddRzM-2c"
+    }
+  ],
   "trades": [
     {
       "id": "1",
@@ -90,6 +112,19 @@
       "status": "open",
       "description": "刚买用了十几天就没用了",
       "id": "kKSGwWc-awg"
+    },
+    {
+      "title": "英语四六级资料",
+      "category": "教材资料",
+      "price": 15,
+      "condition": "全新",
+      "location": "东去宿舍楼",
+      "publisher": "校园用户",
+      "publishTime": "2026-07-02 02:02",
+      "image": "",
+      "status": "open",
+      "description": "包含四六级单词，历年真题",
+      "id": "dk1BruhtdKs"
     }
   ],
   "lostFounds": [
@@ -313,5 +348,6 @@
       "description": "快递小件的",
       "id": "wSM6CVonBWo"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

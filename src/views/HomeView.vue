@@ -77,7 +77,9 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
 import { ShoppingCart, WarningFilled, MessageBox, Plus, Bell, TakeawayBox, UserFilled } from '@element-plus/icons-vue'
+import { useUserStore } from '../stores/user'
 
 interface Category {
   name: string
@@ -111,7 +113,15 @@ const hotItems = [
 ]
 
 const router = useRouter()
+const userStore = useUserStore()
+
 function navigate(path: string) {
+  if (path === '/publish' && !userStore.isLoggedIn) {
+    ElMessage.warning('请先登录后再发布信息')
+    router.push('/login')
+    return
+  }
+
   router.push(path)
 }
 </script>
@@ -210,10 +220,6 @@ function navigate(path: string) {
 /* ---- Section ---- */
 .section {
   margin-bottom: 32px;
-}
-
-.section-head {
-  margin-bottom: 16px;
 }
 
 .section-head {

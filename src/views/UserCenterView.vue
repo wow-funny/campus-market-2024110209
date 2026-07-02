@@ -8,7 +8,7 @@
       <div>
         <h1>{{ userStore.displayName }}</h1>
         <p>{{ userStore.userDescription }}</p>
-        <p>{{ userStore.currentUser.bio }}</p>
+        <p>{{ userStore.currentUser?.bio }}</p>
       </div>
     </div>
 
@@ -144,7 +144,7 @@ const myPublishedItems = computed<PublishedItem[]>(() => {
   let fallbackId = 0
 
   for (const item of trades.value) {
-    if (item.publisher === publisherName || item.publisher === '当前用户') {
+    if (item.publisher === publisherName) {
       items.push({
         id: item.id ?? `fallback-${fallbackId++}`,
         type: 'trade',
@@ -157,7 +157,7 @@ const myPublishedItems = computed<PublishedItem[]>(() => {
   }
 
   for (const item of lostFounds.value) {
-    if ('publisher' in item && (item.publisher === publisherName || item.publisher === '当前用户')) {
+    if ('publisher' in item && item.publisher === publisherName) {
       items.push({
         id: item.id ?? `fallback-${fallbackId++}`,
         type: 'lostFound',
@@ -170,7 +170,7 @@ const myPublishedItems = computed<PublishedItem[]>(() => {
   }
 
   for (const item of groupBuys.value) {
-    if (item.publisher === publisherName || item.publisher === '当前用户') {
+    if (item.publisher === publisherName) {
       items.push({
         id: item.id ?? `fallback-${fallbackId++}`,
         type: 'groupBuy',
@@ -183,7 +183,7 @@ const myPublishedItems = computed<PublishedItem[]>(() => {
   }
 
   for (const item of errands.value) {
-    if (item.publisher === publisherName || item.publisher === '当前用户') {
+    if (item.publisher === publisherName) {
       items.push({
         id: item.id ?? `fallback-${fallbackId++}`,
         type: 'errand',

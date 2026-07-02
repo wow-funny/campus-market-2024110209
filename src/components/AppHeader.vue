@@ -6,6 +6,11 @@ import { useUserStore } from '../stores/user'
 
 const router = useRouter()
 const userStore = useUserStore()
+
+function handleLogout() {
+  userStore.logout()
+  router.push('/login')
+}
 </script>
 
 <template>
@@ -20,24 +25,30 @@ const userStore = useUserStore()
       </router-link>
       <AppNav />
       <div class="header-right">
-        <el-badge :value="3" :hidden="false" class="notif-badge">
-          <el-icon :size="20" color="#606266"><Bell /></el-icon>
-        </el-badge>
-        <el-button class="publish-btn" type="primary" size="small" @click="router.push('/publish')">
-          <el-icon><Plus /></el-icon>发布信息
-        </el-button>
-        <el-dropdown trigger="click">
-          <div class="user-area">
-            <el-avatar :size="32" class="user-avatar">{{ userStore.currentUser.name?.[0] ?? '?' }}</el-avatar>
-            <span class="user-name">{{ userStore.displayName }}</span>
-          </div>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item @click="router.push('/user')">个人中心</el-dropdown-item>
-              <el-dropdown-item divided>退出登录</el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
+        <template v-if="userStore.isLoggedIn">
+          <el-badge :value="3" :hidden="false" class="notif-badge">
+            <el-icon :size="20" color="#606266"><Bell /></el-icon>
+          </el-badge>
+          <el-button class="publish-btn" type="primary" size="small" @click="router.push('/publish')">
+            <el-icon><Plus /></el-icon>发布信息
+          </el-button>
+          <el-dropdown trigger="click">
+            <div class="user-area">
+              <el-avatar :size="32" class="user-avatar">{{ userStore.currentUser?.name?.[0] ?? '?' }}</el-avatar>
+              <span class="user-name">{{ userStore.displayName }}</span>
+            </div>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item @click="router.push('/user')">个人中心</el-dropdown-item>
+                <el-dropdown-item divided @click="handleLogout">退出登录</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </template>
+        <template v-else>
+          <el-button class="auth-btn" plain size="small" @click="router.push('/login')">登录</el-button>
+          <el-button class="auth-btn reg-btn" type="primary" size="small" @click="router.push('/register')">注册</el-button>
+        </template>
       </div>
     </div>
   </el-header>
@@ -168,5 +179,16 @@ const userStore = useUserStore()
 
 .publish-btn:hover {
   background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
+}
+
+.auth-btn {
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 8px 16px !important;
+}
+
+.reg-btn {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+  border: none !important;
 }
 </style>
